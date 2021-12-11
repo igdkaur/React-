@@ -4,6 +4,64 @@ displays the user.
 
 fetch data
 validate the date
+list State
+
+working code
+
+```javscript
+  function App() {
+      const [username, setUsername] = React.useState("");
+      const [age, setAge] = React.useState("");
+      const [usersList, setUsersList] = React.useState([]);
+
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        setUsersList((prevstate) => [
+          ...prevstate,
+          { username: username, age: age },
+        ]);
+        console.log("userlist", usersList);
+
+        setUsername("");
+        setAge("");
+      }
+
+      return (
+        <>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username"> UserName</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={() => setUsername(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="age"> Age </label>
+              <input
+                type="text"
+                id="age"
+                value={age}
+                onChange={() => setAge(event.target.value)}
+              />
+            </div>
+            <div>
+              <button type="submit"> Add User</button>
+            </div>
+          </form>
+          <ul>
+             {usersList.map (user => <li>{user.username}</li>)} 
+          </ul> 
+        </>
+      );
+    }```
+---------
+-----
+
+
 
 
 ```javascript
@@ -203,3 +261,82 @@ const users = [
     </>
   )
   }```
+
+
+  ------------
+
+DOESNT WORK 
+  setUsersList( (preUsersList) => {
+    return [...prevUsersList, {username:username, age: age}]
+  })
+
+  WORKS
+
+  setUsersList(prevstate => ([...prevstate,{ username:username, age: age}]));
+
+  -------
+  strange:
+  the console log just after the setState does not show the current state
+  its bcs state is async
+
+  ``` javascript
+  function App() {
+      const [username, setUsername] = React.useState("");
+      const [age, setAge] = React.useState("");
+      const [usersList, setUsersList] = React.useState([]);
+
+      function handleSubmit(event) {
+        event.preventDefault();
+
+        setUsersList((prevstate) => [
+          ...prevstate,
+          { username: username, age: age },
+        ]);
+        console.log("userlist", usersList);
+
+        setUsername("");
+        setAge("");
+      }
+
+      return (
+        <>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="username"> UserName</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={() => setUsername(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="age"> Age </label>
+              <input
+                type="text"
+                id="age"
+                value={age}
+                onChange={() => setAge(event.target.value)}
+              />
+            </div>
+            <div>
+              <button type="submit"> Add User</button>
+            </div>
+          </form>
+          <p> {"hey"} </p>
+        </>
+      );
+    }
+```
+
+------
+mistake : 
+<ul>
+  <li> {usersList.map (user => <li> {user.username})} </li>
+</ul>
+
+v/s
+
+<ul>
+  {usersList.map (user => <li> {user.username}</li>)} 
+</ul> 
