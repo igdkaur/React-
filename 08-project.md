@@ -2,6 +2,10 @@ form that takes in name and age,
 has a button add user,
 displays the user.
 
+fetch data
+validate the date
+
+
 ```javascript
   function handleSubmit (event) {
       alert("submitted")
@@ -34,7 +38,7 @@ displays the user.
   mistakes
   value = "age
   value ={age} 
-  onAnimalChange = {event => setAnimal(event.target.value)}
+  onChange = {event => set?(event.target.value)}
 
 
   ----
@@ -120,3 +124,82 @@ some mistake
 
 mistake I was making was 
 onChange = {() => setUsername(event.target.value)}
+
+
+
+-------
+
+adding value to input labels and setAge('') cleared the input after submit
+imp-  feedback the current state(after empting) to  input
+
+
+----
+![](2021-12-11-11-04-08.png)
+
+made array of object users
+
+pushed every new input to it
+
+rendered a list
+BUT
+the empty array is getting pushed too
+
+
+``` javascript
+const users = [
+    {
+      username : "",
+      age: ""
+    }
+  ]
+
+  function App () {
+
+    const [username,setUsername] = React.useState('')
+    const [age,setAge] = React.useState('')
+
+    function handleSubmit (event) {
+      console.log(users)
+      event.preventDefault()
+      //alert("submitted")
+      users.push({username,age})
+      console.log(users) // diff comp
+      
+      
+      setUsername("")
+      setAge("")
+      
+    }
+    
+    return(
+      <>
+    <form onSubmit = {handleSubmit}>
+      <div>
+      <label htmlFor="username" > UserName</label> 
+      <input type="text" id ="username" value = {username} onChange = {() => setUsername(event.target.value)}  />
+    </div>
+    <div>
+      <label htmlFor="age" > Age </label>
+      <input type="text" id ="age" value = {age} onChange = {() => setAge(event.target.value)}   />
+      
+    </div>
+    <div>
+     
+      <button type ="submit"> Add User</button>
+
+    </div>
+   
+    
+    </form>
+    <p> {"hey"} </p> 
+    <ul>
+      {
+        users.map((user) => ( 
+          <li> {user.username} {user.age} years old </li>
+         
+        ))} 
+      </ul>
+    
+    </>
+  )
+  }```
